@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environment
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Temporary work directory
+sandbox/
+sandbox_test/
+
+# Logs - ignore all except experiment_data.json
+logs/*
+!logs/experiment_data.json
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation build
+docs/_build/
+
+# OpenCode
+.opencode/
+
+# Validation artifacts
+validation_results.json
+run_validation.py
+
+# Test templates (development only)
+tests_templates/
+
+# Ruff cache
+.ruff_cache/
