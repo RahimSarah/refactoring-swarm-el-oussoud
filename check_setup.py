@@ -9,7 +9,7 @@ def check_environment():
 
     # 1. Vérification Python
     version = sys.version_info
-    if (version.major == 3) and (version.minor in [10, 11, 12]):
+    if (version.major == 3) and (version.minor in [10, 11]):
         print(f"✅ Python Version: {version.major}.{version.minor}")
     else:
         print(
@@ -22,7 +22,7 @@ def check_environment():
         print("✅ Fichier .env détecté.")
         with open(".env", "r") as f:
             content = f.read()
-            if "GOOGLE_API_KEY" in content:
+            if "MISTRAL_API_KEY" in content:
                 print("✅ Clé API présente (format non vérifié).")
             else:
                 print("❌ Aucune variable API_KEY trouvée dans .env")
