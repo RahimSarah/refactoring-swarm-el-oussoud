@@ -45,28 +45,30 @@ class JudgeAgent(BaseAgent):
         super().__init__(llm=llm, name="Judge", target_dir=target_dir)
 
     def _get_module_name(self, file_path: str) -> str:
-        """
-        Convert a file path to a module name for imports.
+        import os
+        
+        # 1. Get the path relative to target_dir (This removes C:\Users\...\)
+        # If file_path is "C:\Users\Sarah\project\sandbox\test.py" 
+        # and target_dir is "C:\Users\Sarah\project\sandbox"
+        # rel_path becomes "test.py"
+        try:
+            rel_path = os.path.relpath(file_path, self.target_dir)
+        except ValueError:
+            # Fallback if they are on different drives
+            rel_path = file_path
 
-        This strips the target directory prefix and converts to module format.
-        Example: "sandbox/cart.py" with target_dir="sandbox" -> "cart"
-        Example: "src/models/user.py" with target_dir="." -> "src.models.user"
-        """
-        # Normalize path separators
-        path = file_path.replace("\\", "/")
-        target = self.target_dir.rstrip("/\\").replace("\\", "/")
+        # 2. Normalize slashes to forward slashes
+        path = rel_path.replace("\\", "/")
 
-        # Strip target directory prefix if present
-        if path.startswith(target + "/"):
-            path = path[len(target) + 1 :]
-        elif path.startswith(target):
-            path = path[len(target) :].lstrip("/")
+        # 3. Strip leading "./" if present
+        if path.startswith("./"):
+            path = path[2:]
 
-        # Remove .py extension
+        # 4. Remove .py extension
         if path.endswith(".py"):
             path = path[:-3]
 
-        # Convert path separators to dots for module import
+        # 5. Convert to module format
         module_name = path.replace("/", ".")
 
         return module_name
